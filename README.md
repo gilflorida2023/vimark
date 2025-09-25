@@ -58,7 +58,7 @@ Github's own document describing **Github Flavored Markdown (GFM)**
 # README for mark (Markdown Viewer)
 ![Python](https://img.shields.io/badge/Python-3.11.2-brightgreen?logo=python)
 ![PyQt6](https://img.shields.io/badge/PyQt6-6.9.0-blue)
-## **mark** is a lightweight Python GUI viewer for GitHub Flavored Markdown (GFM) files, using the markdown library with pymdown-extensions for rich rendering (tables, syntax-highlighted code, task lists, etc.) and PyQt6's QWebEngineView for browser-like display. 
+### **mark** is a lightweight Python GUI viewer for GitHub Flavored Markdown (GFM) files, using the markdown library with pymdown-extensions for rich rendering (tables, syntax-highlighted code, task lists, etc.) and PyQt6's QWebEngineView for browser-like display. 
 
 - It supports live reloading on SIGHUP and graceful exit on SIGINT (Ctrl+C).FeaturesRich GFM Rendering: Full support for tables, fenced code blocks with highlighting, blockquotes, lists, math (via arithmatex), and more.
 - Live Reload: Edit the file externally and send SIGHUP to refresh instantly.
@@ -70,7 +70,7 @@ Github's own document describing **Github Flavored Markdown (GFM)**
 - Dependencies: Create requirements.txt and run:
 
 	pip install -r requirements.txt
-## requirements.txt:
+### requirements.txt:
 ```
 PyQt6==6.9.1
 PyQt6-WebEngine==6.9.0
