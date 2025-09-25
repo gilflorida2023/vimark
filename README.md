@@ -72,13 +72,17 @@ Github's own document describing **Github Flavored Markdown (GFM)**
 - Installation **Python 3.11.2+**: Ensure it's installed.
 
 ### run **vimark** to edit README.md
-```
-python3 -m venv venv
-source venv/bin/activate
-pip install -r  requirements.txt
-python vimark README.md
-deactivate
-```
+#### create virtual environment
+	python3 -m venv venv
+#### source the enironment
+	source venv/bin/activate
+#### install requirements.txt
+	pip install -r  requirements.txt
+#### run vimark 
+	python vimark README.md
+#### deactivate thhe python  itual env 
+	deactivate
+
 - Dependencies: Create requirements.txt and run:
 
 	pip install -r requirements.txt
