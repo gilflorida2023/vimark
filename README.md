@@ -57,18 +57,28 @@ MIT License. PRs welcome for multi-file or VSCode integration!
 Github's own document describing **Github Flavored Markdown (GFM)** 
 
 
-# README for mark (Markdown Viewer)
+## README for mark (Markdown Viewer)
 ![Python](https://img.shields.io/badge/Python-3.11.2-brightgreen?logo=python)
-![PyQt6](https://img.shields.io/badge/PyQt6-6.9.0-blue)
-### **mark** is a lightweight Python GUI viewer for GitHub Flavored Markdown (GFM) files, using the markdown library with pymdown-extensions for rich rendering (tables, syntax-highlighted code, task lists, etc.) and PyQt6's QWebEngineView for browser-like display. 
+![PyQt6](https://img.shields.io/badge/PyQt6-6.9.0-blue)<br>
+ **mark** is a lightweight Python GUI viewer for GitHub Flavored Markdown (GFM) files, using the markdown library with pymdown-extensions for rich rendering (tables, syntax-highlighted code, task lists, etc.) and PyQt6's QWebEngineView for browser-like display. 
 
-- It supports live reloading on SIGHUP and graceful exit on SIGINT (Ctrl+C).FeaturesRich GFM Rendering: Full support for tables, fenced code blocks with highlighting, blockquotes, lists, math (via arithmatex), and more.
+- It supports live reloading on SIGHUP and graceful exit on SIGINT (Ctrl+C).
+- FeaturesRich GFM Rendering: Full support for tables, fenced code blocks with highlighting, blockquotes, lists, math (via arithmatex), and more.
 - Live Reload: Edit the file externally and send SIGHUP to refresh instantly.
 - Light Theme: Clean white background with black text for readability.
 - Cross-Platform: Works on Linux (X11/Wayland), Windows, macOS via PyQt6.
 - Minimal: No external browser needed—embedded WebEngine.
 
-- InstallationPython 3.11.2+: Ensure it's installed.
+- Installation **Python 3.11.2+**: Ensure it's installed.
+
+### run **vimark** to edit README.md
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r  requirements.txt
+python vimark README.md
+deactivate
+```
 - Dependencies: Create requirements.txt and run:
 
 	pip install -r requirements.txt
