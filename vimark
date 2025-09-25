@@ -16,12 +16,12 @@ class MarkReloadHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if not event.is_directory and event.src_path.endswith('.md'):
-            print(f"File modified: {event.src_path}. Sending SIGHUP to mark (PID {self.mark_pid})")
+            # Silent: No prints
             try:
                 os.kill(self.mark_pid, signal.SIGHUP)
             except ProcessLookupError:
-                print("Mark process not found; stopping watcher.")
-                self.observer.stop() if hasattr(self, 'observer') else None
+                # Silent fail
+                pass
 
 def main():
     parser = argparse.ArgumentParser(description="Vimark: Integrated Markdown editor and live viewer.")
@@ -38,7 +38,6 @@ def main():
         sys.exit(1)
 
     # Step 3: Spawn mark as detached background process (non-blocking, no TTY)
-    print(f"Starting mark viewer for {file_path}...")
     mark_proc = Popen(['python', 'mark', str(file_path)], 
                       stdout=DEVNULL, stderr=DEVNULL, 
                       start_new_session=True)  # Detach fully
@@ -48,29 +47,24 @@ def main():
         sys.exit(1)
 
     mark_pid = mark_proc.pid
-    print(f"Mark spawned in background (PID: {mark_pid})")
 
     # Step 4: Start file watcher thread for SIGHUP on modify
     event_handler = MarkReloadHandler(mark_pid)
     event_handler.observer = Observer()  # For stop in handler
     event_handler.observer.schedule(event_handler, path=str(file_path.parent), recursive=False)
     event_handler.observer.start()
-    print("File watcher started.")
 
     try:
         # Step 2: Spawn and block on vim (foreground, inherits TTY)
-        print(f"Opening {file_path} in vim (foreground)...")
         vim_exit_code = os.system(f"vim {file_path}")
-        print(f"Vim exited with code {vim_exit_code}.")
     except KeyboardInterrupt:
-        print("Interrupted; cleaning up...")
+        pass
     finally:
         # Step 5: Stop watcher and kill mark
         event_handler.observer.stop()
         event_handler.observer.join()
         try:
             os.killpg(mark_pid, signal.SIGKILL)  # Kill process group for detached
-            print(f"Sent SIGKILL to mark process group (PID {mark_pid})")
         except ProcessLookupError:
             pass
         mark_proc.wait()  # Cleanup
