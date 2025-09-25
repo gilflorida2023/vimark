@@ -15,8 +15,11 @@ dependencies = [
     "PyQt6-WebEngine==6.9.0",
     "watchdog==6.0.0",
 ]
-authors = [{name = "Your Name", email = "you@example.com"}]
+authors = [{name = "gil", email = "gilflorida2023@gmail.com"}]
 
 [project.scripts]
-vimark = "vimark:main"  # Points to vimark.py's main() function
-mark = "mark:main"      # If you want mark as a script too
+vimark = "vimark:main"
+mark = "mark:main"
+
+[tool.setuptools]
+py-modules = ["mark", "vimark"]
