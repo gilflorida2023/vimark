@@ -7,6 +7,27 @@
 
 `vimark` is a Python utility that launches Vim for editing a GFM Markdown file while simultaneously opening `mark` (the viewer) in the background. It uses `watchdog` for instant file watching—on save in Vim, it sends SIGHUP to refresh the viewer without polling. When Vim exits, it kills the viewer and cleans up.
 
+### Vimark intallation with pipx 
+
+### install appliation with pipx
+	sudo apt-get install -y pipx
+	cd vimark
+	pipx install .
+
+#### To verify that vimark is installed via pipx and available in your PATH, run:bash
+    pipx list
+
+#### Look for vimark in the output, e.g.:
+```
+package vimark 0.1.0, installed using Python 3.11.2
+  - mark
+  - vimark
+```
+#### If vimark appears, it's in your PATH (usually ~/.local/bin). Confirm with:bash
+    which vimark
+
+#### Should return ~/.local/bin/vimark. If empty, run pipx ensurepath --force and restart your terminal. Test it! 
+
 ## Features
 
 - **Integrated Workflow**: Edit in **Vim** (foreground), preview live in mark GUI (background).
@@ -118,4 +139,4 @@ This is **bold** and *italic* text with `inline code`.
 |------|------|
 | Row1 | Data |
 ```
-
+###### thank you, come again.

@@ -39,9 +39,12 @@ def main():
 
     # Step 3: Spawn mark as detached background process (non-blocking, no TTY)
     # Use 'mark' entry point (pipx global script), not 'mark.py'
-    mark_proc = Popen(['mark', str(file_path)], 
-                      stdout=DEVNULL, stderr=DEVNULL, 
-                      start_new_session=True)  # Detach fully
+    mark_proc = Popen([sys.executable, os.path.join(os.path.dirname(__file__), 'mark.py'), str(file_path)], stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
+
+
+    # mark_proc = Popen(['mark', str(file_path)], 
+    #                  stdout=DEVNULL, stderr=DEVNULL, 
+    #                  start_new_session=True)  # Detach fully
 
     if mark_proc.poll() is not None:
         print("Error: Failed to start mark.", file=sys.stderr)
