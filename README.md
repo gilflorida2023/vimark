@@ -80,7 +80,7 @@ Github's own document describing **Github Flavored Markdown (GFM)**
 	pip install -r  requirements.txt
 #### run vimark 
 	python vimark README.md
-#### deactivate thhe python  itual env 
+#### deactivate the python virtual env 
 	deactivate
 
 - Dependencies: Create requirements.txt and run:
