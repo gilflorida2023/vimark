@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vimark"
+version = "0.1.0"
+description = "Integrated Vim + Markdown live viewer"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "markdown==3.7",
+    "pymdown-extensions==10.7",
+    "PyQt6==6.9.1",
+    "PyQt6-WebEngine==6.9.0",
+    "watchdog==6.0.0",
+]
+authors = [{name = "Your Name", email = "you@example.com"}]
+
+[project.scripts]
+vimark = "vimark:main"  # Points to vimark.py's main() function
+mark = "mark:main"      # If you want mark as a script too
