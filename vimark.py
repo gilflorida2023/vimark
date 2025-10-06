@@ -33,18 +33,22 @@ def main():
         sys.exit(1)
 
     file_path = Path(args.file)
-    if not file_path.exists() or not file_path.suffix == '.md':
-        print(f"Error: '{file_path}' must be an existing .md file.", file=sys.stderr)
+    
+    # Check if file has .md extension
+    if not file_path.suffix == '.md':
+        print(f"Error: '{file_path}' must be a .md file.", file=sys.stderr)
         sys.exit(1)
+    
+    # Create file if it doesn't exist
+    if not file_path.exists():
+        # Ensure parent directory exists
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.touch()  # Create the file
+        print(f"Created new file: {file_path}")
 
     # Step 3: Spawn mark as detached background process (non-blocking, no TTY)
     # Use 'mark' entry point (pipx global script), not 'mark.py'
     mark_proc = Popen([sys.executable, os.path.join(os.path.dirname(__file__), 'mark.py'), str(file_path)], stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
-
-
-    # mark_proc = Popen(['mark', str(file_path)], 
-    #                  stdout=DEVNULL, stderr=DEVNULL, 
-    #                  start_new_session=True)  # Detach fully
 
     if mark_proc.poll() is not None:
         print("Error: Failed to start mark.", file=sys.stderr)
