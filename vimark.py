@@ -15,12 +15,10 @@ class MarkReloadHandler(FileSystemEventHandler):
         self.mark_pid = mark_pid
 
     def on_modified(self, event):
-        if not event.is_directory and event.src_path.endswith('.md'):
-            # Silent: No prints
+        if not event.is_directory and event.src_path.endswith('.md') and self.mark_pid is not None:
             try:
                 os.kill(self.mark_pid, signal.SIGHUP)
             except ProcessLookupError:
-                # Silent fail
                 pass
 
 def main():
@@ -51,10 +49,10 @@ def main():
     mark_proc = Popen([sys.executable, os.path.join(os.path.dirname(__file__), 'mark.py'), str(file_path)], stdout=DEVNULL, start_new_session=True)
 
     if mark_proc.poll() is not None:
-        print("Error: Failed to start mark.", file=sys.stderr)
-        sys.exit(1)
-
-    mark_pid = mark_proc.pid
+        print("Warning: mark viewer unavailable (no display). Editing without preview.", file=sys.stderr)
+        mark_pid = None
+    else:
+        mark_pid = mark_proc.pid
 
     # Step 4: Start file watcher thread for SIGHUP on modify
     event_handler = MarkReloadHandler(mark_pid)
@@ -71,11 +69,12 @@ def main():
         # Step 5: Stop watcher and kill mark
         event_handler.observer.stop()
         event_handler.observer.join()
-        try:
-            os.killpg(mark_pid, signal.SIGKILL)  # Kill process group for detached
-        except ProcessLookupError:
-            pass
-        mark_proc.wait()  # Cleanup
+        if mark_pid is not None:
+            try:
+                os.killpg(mark_pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        mark_proc.wait()
         sys.exit(0)
 
 if __name__ == "__main__":
