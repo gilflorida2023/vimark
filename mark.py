@@ -6,6 +6,11 @@ import sys
 from pathlib import Path
 from threading import Event
 
+import os
+
+# Force X11/XCB platform - avoids Qt auto-selecting Wayland
+os.environ.setdefault('QT_QPA_PLATFORM', 'xcb')
+
 import markdown
 from PyQt6.QtCore import QTimer, pyqtSignal, pyqtSlot
 from PyQt6.QtGui import QCloseEvent
@@ -136,7 +141,7 @@ def signal_handler(signum, frame):
         print("SIGHUP received!")  # Debug print
         reload_event.set()
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Graphical Markdown renderer with live reload.")
     parser.add_argument("file", help="Path to the Markdown file")
     args = parser.parse_args()
@@ -160,3 +165,6 @@ if __name__ == "__main__":
     viewer.show()
     
     sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()
