@@ -144,8 +144,17 @@ def main():
     args = parser.parse_args()
 
     if not os.environ.get("DISPLAY") and os.environ.get("QT_QPA_PLATFORM", "xcb") != "offscreen":
-        print("Error: $DISPLAY is not set. Run from a desktop terminal, or use 'ssh -X' for X forwarding.", file=sys.stderr)
-        sys.exit(1)
+        if os.path.exists("/tmp/.X11-unix/X0") and os.path.exists(os.path.expanduser("~/.Xauthority")):
+            import subprocess
+            result = subprocess.run(["xauth", "list"], capture_output=True, text=True)
+            if "unix:0" in result.stdout:
+                os.environ["DISPLAY"] = ":0"
+            else:
+                print("Error: No display available. Xorg is running on :0 but X authority is missing.", file=sys.stderr)
+                sys.exit(1)
+        else:
+            print("Error: No display available. Run from a desktop terminal, or use 'ssh -X' for X forwarding.", file=sys.stderr)
+            sys.exit(1)
     
     file_path = Path(args.file)
     if not file_path.exists():
