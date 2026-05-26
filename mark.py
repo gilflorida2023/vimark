@@ -8,9 +8,6 @@ from threading import Event
 
 import os
 
-# Force X11/XCB platform - avoids Qt auto-selecting Wayland
-os.environ.setdefault('QT_QPA_PLATFORM', 'xcb')
-
 import markdown
 from PyQt6.QtCore import QTimer, pyqtSignal, pyqtSlot
 from PyQt6.QtGui import QCloseEvent
