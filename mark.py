@@ -145,6 +145,10 @@ def main():
     parser = argparse.ArgumentParser(description="Graphical Markdown renderer with live reload.")
     parser.add_argument("file", help="Path to the Markdown file")
     args = parser.parse_args()
+
+    if not os.environ.get("DISPLAY") and os.environ.get("QT_QPA_PLATFORM", "xcb") != "offscreen":
+        print("Error: $DISPLAY is not set. Run from a desktop terminal, or use 'ssh -X' for X forwarding.", file=sys.stderr)
+        sys.exit(1)
     
     file_path = Path(args.file)
     if not file_path.exists():
