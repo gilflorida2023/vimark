@@ -144,8 +144,13 @@ def main():
     args = parser.parse_args()
 
     if not os.environ.get("DISPLAY") and os.environ.get("QT_QPA_PLATFORM") != "offscreen":
-        print("No display available. Preview disabled.", file=sys.stderr)
-        sys.exit(1)
+        if os.path.exists("/tmp/.X11-unix/X0"):
+            import subprocess as _sp
+            _r = _sp.run(["xauth", "list"], capture_output=True, text=True)
+            if "unix:0" in _r.stdout:
+                os.environ["DISPLAY"] = ":0"
+        if not os.environ.get("DISPLAY"):
+            sys.exit(0)
     
     file_path = Path(args.file)
     if not file_path.exists():
